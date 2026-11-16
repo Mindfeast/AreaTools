@@ -1,0 +1,6 @@
+dist/
+Binaries/
+Intermediate/
+Saved/
+.vs/
+__pycache__/

@@ -1,0 +1,22 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.1.0",
+	"SemVersion": "0.1.0",
+	"GameVersion": ">=491125",
+	"FriendlyName": "Area Tools",
+	"Description": "Select an area and mass dismantle, with refunds.",
+	"Category": "Modding",
+	"CreatedBy": "Mindfeast",
+	"CreatedByURL": "https://github.com/Mindfeast/AreaTools",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"Installed": false,
+	"Modules": [
+		{ "Name": "AreaTools", "Type": "Runtime", "LoadingPhase": "PostDefault" }
+	],
+	"Plugins": [
+		{ "Name": "SML", "SemVersion": "^3.12.0", "Enabled": true }
+	],
+	"RemoteVersionRange": ">=0.1.0"
+}

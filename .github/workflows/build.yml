@@ -1,0 +1,26 @@
+name: Build and release
+
+# Needs a self-hosted Windows runner with labels: self-hosted, windows, satisfactory.
+# The CSS Unreal Engine fork and the SML starter project cannot be built on GitHub-hosted runners.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: [self-hosted, windows, satisfactory]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package plugin
+        shell: pwsh
+        run: ./scripts/build.ps1
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: gh release create "${{ github.ref_name }}" (Get-ChildItem dist/AreaTools-*.zip).FullName --generate-notes

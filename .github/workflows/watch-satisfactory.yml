@@ -1,0 +1,39 @@
+name: Watch Satisfactory updates
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect new SML / game version
+        id: v
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/check_versions.py | tee -a "$GITHUB_OUTPUT"
+      - name: Bump compat and open PR
+        if: steps.v.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/check_versions.py --write > /dev/null
+          BR="compat/sml-${{ steps.v.outputs.sml }}"
+          git config user.name "areatools-bot"
+          git config user.email "areatools-bot@users.noreply.github.com"
+          git checkout -b "$BR"
+          git commit -am "Bump compat to SML ${{ steps.v.outputs.sml }} (game ${{ steps.v.outputs.gameVersion }})"
+          git push -f origin "$BR"
+          gh pr create --base main --head "$BR" \
+            --title "Compat: SML ${{ steps.v.outputs.sml }} / game ${{ steps.v.outputs.gameVersion }}" \
+            --body "New Satisfactory/SML version detected. The build runs on the local runner. If it fails to compile, fix the API changes in this PR, merge, then tag a release." \
+            || echo "PR already exists"
+          gh workflow run build.yml --ref "$BR" || true
