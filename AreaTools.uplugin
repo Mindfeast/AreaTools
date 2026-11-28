@@ -3,7 +3,7 @@
 	"Version": 1,
 	"VersionName": "0.1.0",
 	"SemVersion": "0.1.0",
-	"GameVersion": ">=491125",
+	"GameVersion": ">=520140",
 	"FriendlyName": "Area Tools",
 	"Description": "Select an area and mass dismantle, with refunds.",
 	"Category": "Modding",
@@ -16,7 +16,7 @@
 		{ "Name": "AreaTools", "Type": "Runtime", "LoadingPhase": "PostDefault" }
 	],
 	"Plugins": [
-		{ "Name": "SML", "SemVersion": "^3.12.0", "Enabled": true }
+		{ "Name": "SML", "SemVersion": "^3.12.1", "Enabled": true }
 	],
 	"RemoteVersionRange": ">=0.1.0"
 }
